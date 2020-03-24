@@ -1,7 +1,5 @@
 defmodule ServerTimingPlug.TimingEntry do
-  @moduledoc """
-
-  """
+  @moduledoc false
 
   alias __MODULE__
 
