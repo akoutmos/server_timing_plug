@@ -1,5 +1,7 @@
 # ServerTimingPlug
 
+[![Hex.pm](https://img.shields.io/hexpm/v/server_timing_plug.svg)](http://hex.pm/packages/server_timing_plug) [![Build Status](https://travis-ci.org/akoutmos/server_timing_plug.svg?branch=master)](https://travis-ci.org/akoutmos/server_timing_plug)
+
 The purpose of this library is to provide an easy way to capture basic timing metrics from your application and
 surface them via the Server-Timing header (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server-Timing).
 The design of this lib is very much inspired from https://github.com/hauleth/plug_telemetry_server_timing, but makes
