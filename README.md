@@ -26,7 +26,7 @@ with default configuration):
 plug ServerTimingPlug, header_unit: :millisecond, enabled: true
 ```
 
-Once that entry has been added to you `endpoint.ex` file, you can simple call `ServerTimingPlug.capture/3` and
+Once that entry has been added to you `endpoint.ex` file, you can simple call `ServerTimingPlug.capture_timing/3` and
 `ServerTimingPlug.capture_timing/3` throughout your code in order to capture timings. The captured timings will
 be flushed when the response goes out. It is important to note that timings will only be available if the call to
 `ServerTimingPlug.capture_timing` is made in the same process as the process that is handling the request. A sample
