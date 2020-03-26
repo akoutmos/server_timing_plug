@@ -23,7 +23,7 @@ defmodule ServerTimingPlugTest do
 
       assert Function.info(before_send, :module) == {:module, ServerTimingPlug}
       assert contains_server_timing_header?(conn_after_plug)
-      assert timing_header_equals?(conn_after_plug, "test-event;dur=55.0")
+      assert timing_header_equals?(conn_after_plug, "test-event;dur=55")
     end
 
     test "should not attach Server-Timing header if config is disabled" do
@@ -143,7 +143,7 @@ defmodule ServerTimingPlugTest do
 
       assert Function.info(before_send, :module) == {:module, ServerTimingPlug}
       assert contains_server_timing_header?(conn_after_plug)
-      assert timing_header_equals?(conn_after_plug, "test-event;desc=\"This is a description\";dur=550.0")
+      assert timing_header_equals?(conn_after_plug, "test-event;desc=\"This is a description\";dur=550")
     end
   end
 
