@@ -44,7 +44,7 @@ def index(conn, params) do
 
   ServerTimingPlug.capture_timing("expensive-thing", duration, "This timing captures the expensive operation")
 
-  json(conn, "{message: "All is well!"}")
+  json(conn, %{message: "All is well!"})
 end
 ```
 
