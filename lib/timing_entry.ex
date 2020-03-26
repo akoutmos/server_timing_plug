@@ -3,13 +3,12 @@ defmodule ServerTimingPlug.TimingEntry do
 
   alias __MODULE__
 
-  defstruct [:name, :duration, :unit, :description]
+  defstruct [:name, :duration, :description]
 
-  def new(name, duration, unit, description) do
+  def new(name, duration, description) do
     %TimingEntry{
       name: name,
       duration: duration,
-      unit: unit,
       description: description
     }
   end

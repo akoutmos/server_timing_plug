@@ -50,7 +50,7 @@ defmodule ServerTimingPlug do
   ```
 
   To summarize, below is a breakdown of all the options along with their possible values:
-  - header_unit: The time unit that the Server-Timing header gets converted to
+  - `header_unit`: The time unit that the Server-Timing header gets converted to
     - `:second`
     - `:millisecond`
     - `:microsecond`
@@ -58,7 +58,7 @@ defmodule ServerTimingPlug do
     - `:native`
     - `:config`
     - `{:system, "YOUR_ENV_VAR"}`
-  - enabled: Is the ServerTimingPlug enabled and capturing timings
+  - `enabled`: Is the ServerTimingPlug enabled and capturing timings
     - `true`
     - `false`
     - `:config`
@@ -111,7 +111,9 @@ defmodule ServerTimingPlug do
   and periods to ensure that the browser can report the timing correctly.
   - `duration`: The time of the event that you want to track. If passing in just an integer, it is
   assumed that is in `:native` time. To specify the unit of measurement for the provided duration,
-  use the `{duration, :unit}` form like `{580, :millisecond}` for example.
+  use the `{duration, :unit}` form like `{580, :millisecond}` for example. :native is the assumed
+  duration type as you should be using `System.monotonic_time/0` to time your various functions or
+  code blocks.
   - `description` (optional): A more in depth description of your event that you are timing.
   """
   @spec capture_timing(String.t(), integer() | {integer(), timing_unit()}, String.t() | nil) :: :ok
@@ -120,7 +122,8 @@ defmodule ServerTimingPlug do
   def capture_timing(name, {duration, unit}, description) do
     case Process.get(ServerTimingPlug) do
       {%ConfigOpts{enabled: true} = opts, timings_list} ->
-        updated_timings_list = [TimingEntry.new(name, duration, unit, description) | timings_list]
+        time_in_native = System.convert_time_unit(duration, unit, :native)
+        updated_timings_list = [TimingEntry.new(name, time_in_native, description) | timings_list]
         Process.put(ServerTimingPlug, {opts, updated_timings_list})
         :ok
 
@@ -159,7 +162,7 @@ defmodule ServerTimingPlug do
   defp format_timing_header(timings_list, %ConfigOpts{} = opts) do
     timings_list
     |> Enum.map(fn %TimingEntry{} = timing_entry ->
-      formatted_duration = System.convert_time_unit(timing_entry.duration, timing_entry.unit, opts.header_unit)
+      formatted_duration = format_duration(timing_entry.duration, opts.header_unit)
 
       case timing_entry.description do
         nil -> "#{timing_entry.name};dur=#{formatted_duration}"
@@ -167,6 +170,12 @@ defmodule ServerTimingPlug do
       end
     end)
     |> Enum.join(", ")
+  end
+
+  defp format_duration(duration, header_unit) do
+    duration
+    |> Decimal.div(System.convert_time_unit(1, header_unit, :native))
+    |> Decimal.to_string(:normal)
   end
 
   defp resolve_header_unit(%ConfigOpts{header_unit: :config} = opts) do

@@ -22,6 +22,7 @@ defmodule ServerTimingPlug.MixProject do
   defp deps do
     [
       {:plug, "~> 1.8"},
+      {:decimal, "~> 1.7"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
