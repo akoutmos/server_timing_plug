@@ -50,7 +50,7 @@ end
 
 ## Additional Thoughts
 
-The design of this lib draws inspired from https://github.com/hauleth/plug_telemetry_server_timing, but makes
+The design of this lib draws inspiration from https://github.com/hauleth/plug_telemetry_server_timing, but makes
 some slightly different design decisions. Whereas `plug_telemetry_server_timing` attaches `:telemetry` handlers to
 events and automatically aggregates the results of timings, this library allows you to time arbitrary events and
 does not infer timing label names based on telemetry events. There are other Server-Timing libraries on hex as well;
